@@ -6,6 +6,12 @@ api: [1.8.0]
 softdepend: ["iControlU"]
 commands:
   specter:
-    usage: /specter [name]
-  s:
-    usage: /specter [name]
+    usage: /specter <action> <player> [params]
+    permission: specter.command
+    aliases: ['s']
+permissions:
+  specter:
+    default: op
+    children:
+      specter.command:
+        default: op
