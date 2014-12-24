@@ -6,7 +6,6 @@ use pocketmine\command\CommandSender;
 use pocketmine\math\Vector3;
 use pocketmine\network\protocol\MessagePacket;
 use pocketmine\plugin\PluginBase;
-use specter\api\Player;
 use specter\network\SpecterInterface;
 use specter\network\SpecterPlayer;
 
