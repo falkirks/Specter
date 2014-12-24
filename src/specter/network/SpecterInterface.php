@@ -84,6 +84,7 @@ class SpecterInterface implements SourceInterface{
     public function close(Player $player, $reason = "unknown reason"){
         $this->sessions->detach($player);
         unset($this->ackStore[$player->getName()]);
+        unset($this->replyStore[$player->getName()]);
     }
 
     /**
@@ -92,12 +93,12 @@ class SpecterInterface implements SourceInterface{
     public function setName($name){
         // TODO: Implement setName() method.
     }
-    public function openSession($username, $address = "127.0.0.1", $port = 19133){
-        if(!isset($this->ackStore[$username])) {
+    public function openSession($username, $address = "SPECTER", $port = 19133){
+        if(!isset($this->replyStore[$username])) {
             $player = new SpecterPlayer($this, null, $address, $port);
             $this->sessions->attach($player, $username);
-            $this->ackStore[$player->getName()] = [];
-            $this->replyStore[$player->getName()] = [];
+            $this->ackStore[$username] = [];
+            $this->replyStore[$username] = [];
             $this->specter->getServer()->addPlayer($username, $player);
 
             $pk = new LoginPacket;

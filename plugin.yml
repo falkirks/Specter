@@ -3,6 +3,7 @@ version: 0.0.1
 author: Falkirks
 main: specter\Specter
 api: [1.8.0]
+softdepend: ["iControlU"]
 commands:
   specter:
     usage: /specter [name]
