@@ -1,0 +1,10 @@
+name: Specter
+version: 0.0.1
+author: Falkirks
+main: specter\Specter
+api: [1.8.0]
+commands:
+  specter:
+    usage: /specter [name]
+  s:
+    usage: /specter [name]
