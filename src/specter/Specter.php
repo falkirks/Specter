@@ -20,6 +20,9 @@ class Specter extends PluginBase{
         if(isset($args[0])){
             switch($args[0]){
                 case 'spawn':
+                case 'new':
+                case 'add':
+                case 's':
                     if(isset($args[1])) {
                         if ($this->getInterface()->openSession($args[1])){
                             $sender->sendMessage("Session started.");
@@ -34,6 +37,9 @@ class Specter extends PluginBase{
                     }
                     break;
                 case 'move':
+                case 'm':
+                case 'teleport':
+                case 'tp':
                     if(isset($args[4])) {
                         $player = $this->getServer()->getPlayer($args[1]);
                         if($player instanceof SpecterPlayer){
@@ -45,9 +51,12 @@ class Specter extends PluginBase{
                     }
                     break;
                 case 'attack':
+                case 'a':
 
                     break;
+                case 'c':
                 case 'chat':
+                case 'command':
                     if(isset($args[2])) {
                         $player = $this->getServer()->getPlayer($args[1]);
                         if($player instanceof SpecterPlayer){
