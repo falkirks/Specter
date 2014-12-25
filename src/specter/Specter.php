@@ -4,7 +4,9 @@ namespace specter;
 use icontrolu\iControlU;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
+use pocketmine\entity\Entity;
 use pocketmine\math\Vector3;
+use pocketmine\network\protocol\InteractPacket;
 use pocketmine\network\protocol\MessagePacket;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
@@ -76,7 +78,42 @@ class Specter extends PluginBase{
                     break;
                 case 'attack':
                 case 'a':
-                    $sender->sendMessage("Attacking is not yet supported.");
+                    if(isset($args[2])){
+                        $player = $this->getServer()->getPlayer($args[1]);
+                        if($player instanceof SpecterPlayer){
+                            if(substr($args[2], 0, 4) === "eid:"){
+                                $victimId = substr($args[2], 4);
+                                if(!is_numeric($victimId)){
+                                    $sender->sendMessage("Usage: /specter attack <attacker> <victim>|<eid:<victim eid>>");
+                                    return true;
+                                }
+                                if(!($player->getLevel()->getEntity($victimId) instanceof Entity)){
+                                    $sender->sendMessage("There is no entity with entity ID $victimId in {$player->getName()}'s level");
+                                    return true;
+                                }
+                            }else{
+                                $victim = $this->getServer()->getPlayer($args[2]);
+                                if($victim instanceof Player){
+                                    $victimId = $victim->getId();
+                                }
+                                else{
+                                    $sender->sendMessage("Player $args[2] not found");
+                                    return true;
+                                }
+                            }
+                            $pk = new InteractPacket;
+                            $pk->action = 0; // unused
+                            $pk->eid = $player->getId();
+                            $pk->target = $victimId;
+                            $this->getInterface()->queueReply($pk, $player->getName());
+                        }
+                        else{
+                            $sender->sendMessage("That player isn't managed by specter.");
+                        }
+                    }
+                    else{
+                        $sender->sendMessage("Usage: /specter attack <attacker> [eid:]<victim>");
+                    }
                     return true;
                     break;
                 case 'c':
