@@ -13,8 +13,8 @@ $dummy->getPlayer()->sendMessage("hello");
 $dummy->close();
 ```
 #### Command
-```
+```bash
 spector spawn Playername
-s s playername //Shorthand
-s c playername /spawn //Execute /spawn as player
+s s playername # Shorthand
+s c playername /spawn # Execute /spawn as player
 ```
