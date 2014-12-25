@@ -21,6 +21,12 @@ class DummyPlayer{
             return null;
         }
     }
+    public function close(){
+        $p = $this->getPlayer();
+        if($p !== null) {
+            $p->close("", "client disconnect.");
+        }
+    }
     /**
      * @return null|Specter
      * @throws \Exception
