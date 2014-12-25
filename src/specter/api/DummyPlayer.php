@@ -6,14 +6,16 @@ use specter\network\SpecterPlayer;
 use specter\Specter;
 
 class DummyPlayer{
-    public function __construct($name, $address = null, $port = null){
+    private $server;
+    public function __construct($name, $address = null, $port = null, Server $server = null){
         $this->name = $name;
-        if(!$this->getSpecter()->getInterface()->openSession($name, $address, $port)){
+        $this->server = $server === null ? Server::getInstance() : $server;
+        if(!$this->getSpecter($this->server)->getInterface()->openSession($name, $address, $port)){
             throw new \Exception("Failed to open session.");
         }
     }
     public function getPlayer(){
-        $p = Server::getInstance()->getPlayer($this->name);
+        $p = $this->server->getPlayer($this->name);
         if($p instanceof SpecterPlayer){
             return $p;
         }
@@ -32,7 +34,7 @@ class DummyPlayer{
      * @throws \Exception
      */
     protected function getSpecter(){
-        $plugin = Server::getInstance()->getPluginManager()->getPlugin("Specter");
+        $plugin = $this->server->getPluginManager()->getPlugin("Specter");
         if($plugin !== null && $plugin->isEnabled()){
             return $plugin;
         }
