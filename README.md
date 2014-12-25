@@ -14,7 +14,7 @@ $dummy->close();
 ```
 #### Command
 ```bash
-spector spawn Playername
-s s playername # Shorthand
+spector spawn Playername # The full command
+s s playername # Luckily there is shorthand
 s c playername /spawn # Execute /spawn as player
 ```
