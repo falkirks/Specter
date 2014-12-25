@@ -6,6 +6,7 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\math\Vector3;
 use pocketmine\network\protocol\MessagePacket;
+use pocketmine\network\protocol\RespawnPacket;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use specter\network\SpecterInterface;
@@ -15,6 +16,7 @@ class Specter extends PluginBase{
     /** @var  SpecterInterface */
     private $interface;
     public function onEnable(){
+        $this->saveDefaultConfig();
         $this->interface =  new SpecterInterface($this);
         $this->getServer()->addInterface($this->interface);
     }
@@ -123,6 +125,26 @@ class Specter extends PluginBase{
                     }
                     else{
                         $sender->sendMessage("This command must be run in game.");
+                    }
+                    return true;
+                    break;
+                case "respawn":
+                case "r":
+                    if(!isset($args[1])){
+                        $sender->sendMessage("Usage: /specter respawn <player>");
+                        return true;
+                    }
+                    $player = $this->getServer()->getPlayer($args[1]);
+                    if($player instanceof SpecterPlayer){
+                        if($player->spec_needRespawn){
+                            $this->interface->queueReply(new RespawnPacket(), $player->getName());
+                        }
+                        else{
+                            $sender->sendMessage("{$player->getName()} doesn't need respawning.");
+                        }
+                    }
+                    else{
+                        $sender->sendMessage("That player isn't a specter player");
                     }
                     return true;
                     break;

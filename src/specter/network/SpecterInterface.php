@@ -61,8 +61,13 @@ class SpecterInterface implements SourceInterface{
             */
             if($packet instanceof SetHealthPacket){
                 if($packet->health <= 0){
-                    $pk = new RespawnPacket();
-                    $this->replyStore[$player->getName()][] = $pk;
+                    if($this->specter->getConfig()->get("autoRespawn")){
+                        $pk = new RespawnPacket();
+                        $this->replyStore[$player->getName()][] = $pk;
+                    }
+                }
+                else{
+                    $player->spec_needRespawn = true;
                 }
             }
             if($needACK){
