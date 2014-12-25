@@ -11,6 +11,7 @@ use pocketmine\network\protocol\SetHealthPacket;
 use pocketmine\network\protocol\SetSpawnPositionPacket;
 use pocketmine\network\protocol\SetTimePacket;
 use pocketmine\network\protocol\StartGamePacket;
+use pocketmine\network\protocol\MessagePacket;
 use pocketmine\network\SourceInterface;
 use pocketmine\Player;
 use pocketmine\Server;
@@ -44,8 +45,9 @@ class SpecterInterface implements SourceInterface{
      */
     public function putPacket(Player $player, DataPacket $packet, $needACK = false, $immediate = true){
         if($player instanceof SpecterPlayer) {
-            /*
-            if ($packet instanceof LoginStatusPacket) {
+            if ($packet instanceof MessagePacket) {
+                $this->specter->getLogger()->info("To {$player->getName()}: $packet->message");
+            } elseif ($packet instanceof LoginStatusPacket) {
 
             } elseif ($packet instanceof StartGamePacket) {
 
@@ -55,7 +57,7 @@ class SpecterInterface implements SourceInterface{
 
             } elseif ($packet instanceof SetSpawnPositionPacket) {
 
-            } else {
+            } /*else {
                 $this->specter->getLogger()->info("Specter encountered an unknown packet.");
             }
             */
