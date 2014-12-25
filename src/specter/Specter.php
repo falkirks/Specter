@@ -128,9 +128,7 @@ class Specter extends PluginBase{
                     break;
             }
         }
-        else{
-            return false;
-        }
+        return false;
     }
     /**
      * @return SpecterInterface
