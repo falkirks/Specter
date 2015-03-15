@@ -8,13 +8,13 @@ Specter eliminates the need to get additional people to test a plugin and the ho
 Players can be managed via an API or through a command. 
 #### API
 ```php
-$dummy = new \spector\api\DummyPlayer("Playername");
+$dummy = new \specter\api\DummyPlayer("Playername");
 $dummy->getPlayer()->sendMessage("hello");
 $dummy->close();
 ```
 #### Command
 ```bash
-spector spawn Playername # The full command to spawn a new dummy
+specter spawn Playername # The full command to spawn a new dummy
 s s playername # Luckily there is shorthand
 s c playername /spawn # Execute /spawn as player
 ```
