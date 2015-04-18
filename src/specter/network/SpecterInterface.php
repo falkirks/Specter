@@ -11,8 +11,9 @@ use pocketmine\network\protocol\SetHealthPacket;
 use pocketmine\network\protocol\SetSpawnPositionPacket;
 use pocketmine\network\protocol\SetTimePacket;
 use pocketmine\network\protocol\StartGamePacket;
-use pocketmine\network\protocol\MessagePacket;
+use pocketmine\network\protocol\TextPacket;
 use pocketmine\network\SourceInterface;
+use pocketmine\utils\TextFormat;
 use pocketmine\Player;
 use pocketmine\Server;
 use specter\network\SpecterPlayer;
@@ -45,8 +46,26 @@ class SpecterInterface implements SourceInterface{
      */
     public function putPacket(Player $player, DataPacket $packet, $needACK = false, $immediate = true){
         if($player instanceof SpecterPlayer) {
-            if ($packet instanceof MessagePacket) {
-                $this->specter->getLogger()->info("To {$player->getName()}: $packet->message");
+            if ($packet instanceof TextPacket) {
+                $type = "Unknown";
+                switch($type){
+                    case TextPacket::TYPE_CHAT:
+                        $type = "Chat"; // warn about deprecation?
+                        break;
+                    case TextPacket::TYPE_RAW:
+                        $type = "Message";
+                        break;
+                    case TextPacket::TYPE_POPUP:
+                        $type = "Popup";
+                        break;
+                    case TextPacket::TYPE_TIP:
+                        $type = "Tip";
+                        break;
+                    case TextPacket::TYPE_TRANSLATION:
+                        $type = "Translation (with params: " . implode(", ", $packet->parameters) . ")";
+                        break;
+                }
+                $this->specter->getLogger()->info(TextFormat::LIGHT_PURPLE . "$type to {$player->getName()}: " . TextFormat::WHITE . $packet->message);
             } elseif ($packet instanceof LoginStatusPacket) {
 
             } elseif ($packet instanceof StartGamePacket) {
