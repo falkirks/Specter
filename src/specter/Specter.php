@@ -7,8 +7,8 @@ use pocketmine\command\CommandSender;
 use pocketmine\entity\Entity;
 use pocketmine\math\Vector3;
 use pocketmine\network\protocol\InteractPacket;
-use pocketmine\network\protocol\MessagePacket;
 use pocketmine\network\protocol\RespawnPacket;
+use pocketmine\network\protocol\TextPacket;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use specter\network\SpecterInterface;
@@ -124,7 +124,7 @@ class Specter extends PluginBase{
                     if(isset($args[2])) {
                         $player = $this->getServer()->getPlayer($args[1]);
                         if($player instanceof SpecterPlayer){
-                            $pk = new MessagePacket();
+                            $pk = new TextPacket();
                             $pk->source = "";
                             $pk->message = implode(" ", array_slice($args, 2));
                             $this->getInterface()->queueReply($pk, $player->getName());
