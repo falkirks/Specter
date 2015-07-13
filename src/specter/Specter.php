@@ -125,6 +125,7 @@ class Specter extends PluginBase{
                         $player = $this->getServer()->getPlayer($args[1]);
                         if($player instanceof SpecterPlayer){
                             $pk = new TextPacket();
+	                        $pk->type = TextPacket::TYPE_CHAT;
                             $pk->source = "";
                             $pk->message = implode(" ", array_slice($args, 2));
                             $this->getInterface()->queueReply($pk, $player->getName());
