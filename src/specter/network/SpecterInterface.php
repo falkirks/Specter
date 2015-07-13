@@ -5,7 +5,6 @@ use pocketmine\network\protocol\DataPacket;
 use pocketmine\network\protocol\FullChunkDataPacket;
 use pocketmine\network\protocol\Info;
 use pocketmine\network\protocol\LoginPacket;
-use pocketmine\network\protocol\LoginStatusPacket;
 use pocketmine\network\protocol\RespawnPacket;
 use pocketmine\network\protocol\SetHealthPacket;
 use pocketmine\network\protocol\SetSpawnPositionPacket;
@@ -13,10 +12,8 @@ use pocketmine\network\protocol\SetTimePacket;
 use pocketmine\network\protocol\StartGamePacket;
 use pocketmine\network\protocol\TextPacket;
 use pocketmine\network\SourceInterface;
-use pocketmine\utils\TextFormat;
 use pocketmine\Player;
-use pocketmine\Server;
-use specter\network\SpecterPlayer;
+use pocketmine\utils\TextFormat;
 use specter\Specter;
 
 class SpecterInterface implements SourceInterface{
@@ -66,8 +63,6 @@ class SpecterInterface implements SourceInterface{
                         break;
                 }
                 $this->specter->getLogger()->info(TextFormat::LIGHT_PURPLE . "$type to {$player->getName()}: " . TextFormat::WHITE . $packet->message);
-            } elseif ($packet instanceof LoginStatusPacket) {
-
             } elseif ($packet instanceof StartGamePacket) {
 
             } elseif ($packet instanceof FullChunkDataPacket) {
@@ -98,6 +93,7 @@ class SpecterInterface implements SourceInterface{
                 return $id;
             }
         }
+	    return null;
     }
 
     /**
@@ -150,8 +146,9 @@ class SpecterInterface implements SourceInterface{
         foreach($this->ackStore as $name => $acks){
             $player = $this->specter->getServer()->getPlayer($name);
             if($player instanceof SpecterPlayer){
-                foreach($acks as $id){
-                    $player->handleACK($id);
+	            /** @noinspection PhpUnusedLocalVariableInspection */
+	            foreach($acks as $id){
+//                    $player->handleACK($id); // TODO method removed. THough, Specter shouldn't have ACK to fill.
                     $this->specter->getLogger()->info("Filled ACK.");
                 }
             }
