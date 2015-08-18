@@ -20,7 +20,7 @@ class Specter extends PluginBase{
     public function onEnable(){
         $this->saveDefaultConfig();
         $this->interface =  new SpecterInterface($this);
-        $this->getServer()->addInterface($this->interface);
+        $this->getServer()->getNetwork()->registerInterface($this->interface);
     }
     public function onCommand(CommandSender $sender, Command $command, $label, array $args){
         if(isset($args[0])){
