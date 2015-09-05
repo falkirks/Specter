@@ -14,6 +14,7 @@ use pocketmine\network\protocol\TextPacket;
 use pocketmine\network\SourceInterface;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
+use pocketmine\utils\UUID;
 use specter\Specter;
 
 class SpecterInterface implements SourceInterface{
@@ -126,7 +127,9 @@ class SpecterInterface implements SourceInterface{
             $pk = new LoginPacket;
             $pk->username = $username;
             $pk->clientId = 1;
-            $pk->loginData = "fake";
+            // $pk->loginData = "fake";
+            $pk->clientUUID = UUID::fromData($address, $port, $clientId);
+            $pk->clientSecret = null;
             $pk->protocol1 = Info::CURRENT_PROTOCOL;
             $pk->slim = false;
             $pk->skin = str_repeat("\x80", 64 * 32 * 4);
