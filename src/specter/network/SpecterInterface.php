@@ -64,6 +64,9 @@ class SpecterInterface implements SourceInterface{
                         break;
                 }
                 $this->specter->getLogger()->info(TextFormat::LIGHT_PURPLE . "$type to {$player->getName()}: " . TextFormat::WHITE . $packet->message);
+            } elseif (get_class($packet) === "shoghicp\\FastTransfer\\StrangePacket") { // strange packet (transferring)
+                $this->specter->getLogger()->info("Specter is requested to be transferred to $packet->address:$packet->port.");
+                $player->close("", "client disconnect");
             } elseif ($packet instanceof StartGamePacket) {
 
             } elseif ($packet instanceof FullChunkDataPacket) {
