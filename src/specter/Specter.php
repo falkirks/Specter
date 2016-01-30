@@ -30,7 +30,7 @@ class Specter extends PluginBase{
                 case 'add':
                 case 's':
                     if(isset($args[1])) {
-                        if ($this->getInterface()->openSession($args[1], isset($args[2]) ? $args[2] : "SPECTER")){
+                        if ($this->getInterface()->openSession($args[1], isset($args[2]) ? $args[2] : "SPECTER", isset($args[3]) ? $args[3] : 19133)){
                             $sender->sendMessage("Session started.");
                         }
                         else{
