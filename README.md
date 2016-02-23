@@ -18,3 +18,48 @@ specter spawn Playername # The full command to spawn a new dummy
 s s playername # Luckily there is shorthand
 s c playername /spawn # Execute /spawn as player
 ```
+#### Detailed Commands
+(main command omitted)
+###Spawnning
+```
+s
+add
+new
+spawn
+```
+###Removing
+```
+q
+close
+quit
+kick
+```
+###Teleporting
+```
+m
+tp
+move
+teleport
+```
+###Attacking
+```
+a
+attack
+```
+###Chat/Command
+```
+c
+chat
+command
+```
+###ICU
+```
+icu
+control
+```
+###Respawn
+```
+r
+respawn
+```
+
