@@ -6,7 +6,9 @@ use specter\network\SpecterPlayer;
 use specter\Specter;
 
 class DummyPlayer{
+    
     private $server;
+    
     public function __construct($name, $address = null, $port = null, Server $server = null){
         $this->name = $name;
         $this->server = $server === null ? Server::getInstance() : $server;
@@ -14,6 +16,7 @@ class DummyPlayer{
             throw new \Exception("Failed to open session.");
         }
     }
+    
     public function getPlayer(){
         $p = $this->server->getPlayer($this->name);
         if($p instanceof SpecterPlayer){
@@ -23,6 +26,7 @@ class DummyPlayer{
             return null;
         }
     }
+    
     public function close(){
         $p = $this->getPlayer();
         if($p !== null) {
@@ -30,7 +34,7 @@ class DummyPlayer{
         }
     }
     /**
-     * @return null|Specter
+     * @return null | Specter
      * @throws \Exception
      */
     protected function getSpecter(){

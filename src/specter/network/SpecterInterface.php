@@ -20,18 +20,23 @@ use specter\Specter;
 class SpecterInterface implements SourceInterface{
     /** @var  Player[]|\SplObjectStorage */
     private $sessions;
+    
     /** @var  Specter */
     private $specter;
+    
     /** @var  array */
     private $ackStore;
+    
     /** @var  array */
     private $replyStore;
+    
     public function __construct(Specter $specter){
         $this->specter = $specter;
         $this->sessions = new \SplObjectStorage();
         $this->ackStore = [];
         $this->replyStore = [];
     }
+    
     /**
      * Sends a DataPacket to the interface, returns an unique identifier for the packet if $needACK is true
      *
@@ -119,6 +124,7 @@ class SpecterInterface implements SourceInterface{
     public function setName($name){
         // TODO: Implement setName() method.
     }
+    
     public function openSession($username, $address = "SPECTER", $port = 19133){
         if(!isset($this->replyStore[$username])) {
             $player = new SpecterPlayer($this, null, $address, $port);
@@ -145,6 +151,7 @@ class SpecterInterface implements SourceInterface{
             return false;
         }
     }
+    
     /**
      * @return bool
      */
@@ -172,9 +179,11 @@ class SpecterInterface implements SourceInterface{
         }
         return true;
     }
+    
     public function queueReply(DataPacket $pk, $player){
         $this->replyStore[$player][] = $pk;
     }
+    
     public function shutdown(){
         // TODO: Implement shutdown() method.
     }
