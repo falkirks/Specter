@@ -15,13 +15,16 @@ use specter\network\SpecterInterface;
 use specter\network\SpecterPlayer;
 
 class Specter extends PluginBase{
+	
     /** @var  SpecterInterface */
     private $interface;
+    
     public function onEnable(){
         $this->saveDefaultConfig();
         $this->interface =  new SpecterInterface($this);
         $this->getServer()->getNetwork()->registerInterface($this->interface);
     }
+    
     public function onCommand(CommandSender $sender, Command $command, $label, array $args){
         if(isset($args[0])){
             switch($args[0]){
@@ -190,6 +193,7 @@ class Specter extends PluginBase{
         }
         return false;
     }
+    
     /**
      * @return SpecterInterface
      */
@@ -198,7 +202,7 @@ class Specter extends PluginBase{
     }
 
     /**
-     * @return null|\icontrolu\iControlU
+     * @return null | \icontrolu\iControlU
      */
     public function getICU(){
         return $this->getServer()->getPluginManager()->getPlugin("iControlU");
