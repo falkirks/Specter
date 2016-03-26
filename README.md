@@ -20,7 +20,7 @@ s c playername /spawn # Execute /spawn as player
 ```
 #### Detailed Commands
 (main command omitted)
-###Spawnning
+###Spawning
 ```
 s
 add
