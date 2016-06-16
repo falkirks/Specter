@@ -129,12 +129,9 @@ class SpecterInterface implements SourceInterface{
 
             $pk = new LoginPacket;
             $pk->username = $username;
-            $pk->clientId = 1;
-            // $pk->loginData = "fake";
+            $pk->protocol = Info::CURRENT_PROTOCOL;
             $pk->clientUUID = UUID::fromData($address, $port, $username);
-            $pk->clientSecret = null;
-            $pk->protocol1 = Info::CURRENT_PROTOCOL;
-            $pk->slim = false;
+            $pk->clientId = 1;
             $pk->skin = str_repeat("\x80", 64 * 32 * 4);
 
             $player->handleDataPacket($pk);
