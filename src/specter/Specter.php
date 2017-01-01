@@ -2,9 +2,12 @@
 namespace specter;
 
 use icontrolu\iControlU;
+use pocketmine\block\Air;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\entity\Entity;
+use pocketmine\event\player\PlayerMoveEvent;
+use pocketmine\event\Listener;
 use pocketmine\math\Vector3;
 use pocketmine\network\protocol\InteractPacket;
 use pocketmine\network\protocol\RespawnPacket;
@@ -14,11 +17,12 @@ use pocketmine\plugin\PluginBase;
 use specter\network\SpecterInterface;
 use specter\network\SpecterPlayer;
 
-class Specter extends PluginBase{
+class Specter extends PluginBase implements Listener{
     /** @var  SpecterInterface */
     private $interface;
     public function onEnable(){
         $this->saveDefaultConfig();
+        $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->interface =  new SpecterInterface($this);
         $this->getServer()->getNetwork()->registerInterface($this->interface);
     }
@@ -202,5 +206,12 @@ class Specter extends PluginBase{
      */
     public function getICU(){
         return $this->getServer()->getPluginManager()->getPlugin("iControlU");
+    }
+    public function onPlayerMove(PlayerMoveEvent $event){
+    	if($event->getPlayer() instanceof SpecterPlayer){
+    	    if($event->getPlayer()->getLevel()->getBlock($event->getTo()->floor()->subtract(0, 1, 0)) instanceof Air){
+    	    	$event->getPlayer()->teleport($event->getTo()->floor()->subtract(0, 1, 0));
+    	    }
+    	}
     }
 }
