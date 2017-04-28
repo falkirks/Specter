@@ -6,7 +6,9 @@ Specter eliminates the need to get additional people to test a plugin and the ho
 
 ### Managing players
 Players can be managed via an API or through a command. 
+
 #### API
+
 ```php
 $dummy = new \specter\api\DummyPlayer("Playername");
 $dummy->getPlayer()->sendMessage("hello");
@@ -20,6 +22,7 @@ s c playername /spawn # Execute /spawn as player
 ```
 #### Detailed Commands
 (main command omitted)
+
 ###Spawning
 ```
 s
@@ -27,37 +30,43 @@ add
 new
 spawn
 ```
-###Removing
+
+### Removing
 ```
 q
 close
 quit
 kick
 ```
-###Teleporting
+
+### Teleporting
 ```
 m
 tp
 move
 teleport
 ```
-###Attacking
+
+### Attacking
 ```
 a
 attack
 ```
-###Chat/Command
+
+### Chat/Command
 ```
 c
 chat
 command
 ```
-###ICU
+
+### ICU
 ```
 icu
 control
 ```
-###Respawn
+
+### Respawn
 ```
 r
 respawn
