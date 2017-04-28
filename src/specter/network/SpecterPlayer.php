@@ -56,9 +56,11 @@ class SpecterPlayer extends Player{
 
             $this->spawnToAll();
 
+            // ONLY A QUICK FIX... MIGHT NOT WORK ON THE NEXT POCKETMINE UPDATE.
+            /*
             if($this->server->getUpdater()->hasUpdate() and $this->hasPermission(Server::BROADCAST_CHANNEL_ADMINISTRATIVE)){
                 $this->server->getUpdater()->showPlayerUpdate($this);
-            }
+            }*/
         }
     }
 }
