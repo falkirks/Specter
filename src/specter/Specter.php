@@ -5,22 +5,29 @@ use icontrolu\iControlU;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\entity\Entity;
+use pocketmine\event\Listener;
+use pocketmine\event\server\DataPacketReceiveEvent;
+use pocketmine\event\server\DataPacketSendEvent;
 use pocketmine\math\Vector3;
-use pocketmine\network\protocol\InteractPacket;
-use pocketmine\network\protocol\RespawnPacket;
-use pocketmine\network\protocol\TextPacket;
+use pocketmine\network\mcpe\protocol\InteractPacket;
+use pocketmine\network\mcpe\protocol\MovePlayerPacket;
+use pocketmine\network\mcpe\protocol\RequestChunkRadiusPacket;
+use pocketmine\network\mcpe\protocol\RespawnPacket;
+use pocketmine\network\mcpe\protocol\SetTimePacket;
+use pocketmine\network\mcpe\protocol\TextPacket;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use specter\network\SpecterInterface;
 use specter\network\SpecterPlayer;
 
-class Specter extends PluginBase{
+class Specter extends PluginBase implements Listener {
     /** @var  SpecterInterface */
     private $interface;
     public function onEnable(){
         $this->saveDefaultConfig();
         $this->interface =  new SpecterInterface($this);
         $this->getServer()->getNetwork()->registerInterface($this->interface);
+        $this->getServer()->getPluginManager()->registerEvents($this, $this);
     }
     public function onCommand(CommandSender $sender, Command $command, $label, array $args){
         if(isset($args[0])){
@@ -67,7 +74,14 @@ class Specter extends PluginBase{
                     if(isset($args[4])) {
                         $player = $this->getServer()->getPlayer($args[1]);
                         if($player instanceof SpecterPlayer){
-                            $player->teleport(new Vector3($args[2], $args[3], $args[4])); //TODO make lower level
+                            $pk = new MovePlayerPacket();
+                            $pk->x = $args[2];
+                            $pk->y = $args[3];
+                            $pk->z = $args[4];
+                            $pk->yaw = 0;
+                            $pk->bodyYaw = 0;
+                            $pk->pitch = 0;
+                            $pk->handle($player);
                         }
                         else{
                             $sender->sendMessage("That player isn't managed by specter.");
@@ -103,7 +117,7 @@ class Specter extends PluginBase{
                                     return true;
                                 }
                             }
-                            $pk = new InteractPacket;
+                            $pk = new InteractPacket();
                             $pk->action = 0; // unused
                             $pk->eid = $player->getId();
                             $pk->target = $victimId;
@@ -190,6 +204,28 @@ class Specter extends PluginBase{
         }
         return false;
     }
+
+    /**
+     * @priority MONITOR
+     * @param DataPacketReceiveEvent $pk
+     */
+    public function onDataPacketRecieve(DataPacketReceiveEvent $pk){
+        if($pk->getPacket() instanceof RequestChunkRadiusPacket){
+            $this->getLogger()->info("RADIUS:" . $pk->getPacket()->radius);
+        }
+        $this->getLogger()->info("GOT:" . get_class($pk->getPacket()));
+    }
+
+    /**
+     * @priority MONITOR
+     * @param DataPacketSendEvent $pk
+     */
+    public function onDataPacketSend(DataPacketSendEvent $pk){
+        if(!($pk->getPacket() instanceof SetTimePacket)) {
+            $this->getLogger()->info("SEND:" . get_class($pk->getPacket()));
+        }
+    }
+
     /**
      * @return SpecterInterface
      */

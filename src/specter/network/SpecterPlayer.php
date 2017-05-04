@@ -1,17 +1,10 @@
 <?php
 namespace specter\network;
 
-use pocketmine\event\player\PlayerJoinEvent;
-use pocketmine\event\player\PlayerRespawnEvent;
-use pocketmine\level\format\mcregion\Chunk;
-use pocketmine\level\Level;
-use pocketmine\network\protocol\DataPacket;
-use pocketmine\network\protocol\SetTimePacket;
+use pocketmine\math\Vector3;
+use pocketmine\network\mcpe\protocol\DataPacket;
 use pocketmine\network\SourceInterface;
 use pocketmine\Player;
-use pocketmine\Server;
-use pocketmine\tile\Spawnable;
-use pocketmine\utils\TextFormat;
 
 class SpecterPlayer extends Player{
     public $spec_needRespawn = false;
@@ -28,37 +21,18 @@ class SpecterPlayer extends Player{
     }
 
     protected function sendNextChunk(){
-        if($this->connected === false){
-            return;
-        }
-        if($this->spawned === false){
-            $this->spawned = true;
-
-            $pk = new SetTimePacket();
-            $pk->time = $this->level->getTime();
-            $pk->started = $this->level->stopTime == false;
-            $this->dataPacket($pk);
-
-            $pos = $this->level->getSafeSpawn($this);
-
-            $this->server->getPluginManager()->callEvent($ev = new PlayerRespawnEvent($this, $pos));
-
-            $this->teleport($ev->getRespawnPosition());
-
-            $this->sendSettings();
-            $this->inventory->sendContents($this);
-            $this->inventory->sendArmorContents($this);
-
-            $this->server->getPluginManager()->callEvent($ev = new PlayerJoinEvent($this, TextFormat::YELLOW . $this->getName() . " joined the game"));
-            if(strlen(trim($ev->getJoinMessage())) > 0){
-                $this->server->broadcastMessage($ev->getJoinMessage());
-            }
-
-            $this->spawnToAll();
-
-            if($this->server->getUpdater()->hasUpdate() and $this->hasPermission(Server::BROADCAST_CHANNEL_ADMINISTRATIVE)){
-                $this->server->getUpdater()->showPlayerUpdate($this);
-            }
-        }
+        parent::sendNextChunk();
     }
+
+    protected function completeLoginSequence(){
+        parent::completeLoginSequence();
+    }
+
+    /**
+     * @return Vector3
+     */
+    public function getForceMovement(){
+        return $this->forceMovement;
+    }
+
 }
