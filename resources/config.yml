@@ -1,3 +1,4 @@
 ---
 autoRespawn: true
+allowIllegalMoves: true
 ...
