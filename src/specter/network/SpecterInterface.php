@@ -108,7 +108,6 @@ class SpecterInterface implements SourceInterface{
                     break;
                 case MovePlayerPacket::class:
                     if($packet->eid === $player->getId() && $player->isAlive() && $player->spawned === true && $player->getForceMovement() !== null) {
-                        $this->specter->getServer()->getLogger()->info("GOT ONE");
                         $packet->mode = MovePlayerPacket::MODE_NORMAL;
                         $packet->yaw += 25; //FIXME little hacky
                         $this->replyStore[$player->getName()][] = $packet;
@@ -169,7 +168,10 @@ class SpecterInterface implements SourceInterface{
             $this->replyStore[$username] = [];
             $this->specter->getServer()->addPlayer($username, $player);
 
-            $pk = new LoginPacket();
+            $pk = new class() extends LoginPacket{
+                public function decodeAdditional(){
+                }
+            };
             $pk->username = $username;
             $pk->gameEdition = 0;
             $pk->protocol = ProtocolInfo::CURRENT_PROTOCOL;
