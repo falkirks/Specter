@@ -179,7 +179,7 @@ class SpecterInterface implements SourceInterface{
             $pk->clientId = 1;
             $pk->identityPublicKey = "key here";
             $pk->skin = str_repeat("\x80", 64 * 32 * 4);
-            $pk->skinId = 1;
+            $pk->skinId = "Standard_Alex";
 
             $pk->handle($player);
 
