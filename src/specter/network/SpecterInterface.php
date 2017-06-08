@@ -175,11 +175,11 @@ class SpecterInterface implements SourceInterface{
             $pk->username = $username;
             $pk->gameEdition = 0;
             $pk->protocol = ProtocolInfo::CURRENT_PROTOCOL;
-            $pk->clientUUID = UUID::fromData($address, $port, $username);
+            $pk->clientUUID = UUID::fromData($address, $port, $username)->toString();
             $pk->clientId = 1;
             $pk->identityPublicKey = "key here";
             $pk->skin = str_repeat("\x80", 64 * 32 * 4);
-            $pk->skinId = 1;
+            $pk->skinId = "Standard_Alex";
 
             $pk->handle($player);
 
