@@ -114,6 +114,7 @@ class SpecterInterface implements SourceInterface{
                     }
                     break;
                 case BatchPacket::class:
+					$packet->decode();
                     $str = zlib_decode($packet->payload, 1024 * 1024 * 64); //Max 64MB
                     $packet->setBuffer($str, 0);
 
