@@ -114,22 +114,36 @@ class SpecterInterface implements SourceInterface{
                     }
                     break;
                 case BatchPacket::class:
-					$packet->decode();
+					try{
+                    if(strlen($packet->payload) === 0){
+                        throw new \InvalidArgumentException("BatchPacket payload is empty or packet decode error");
+                    }
                     $str = zlib_decode($packet->payload, 1024 * 1024 * 64); //Max 64MB
-                    $packet->setBuffer($str, 0);
+                    $len = strlen($str);
+                    if($len === 0){
+                        throw new \InvalidStateException("Decoded BatchPacket payload is empty");
+                    }
 
                     $network = $this->specter->getServer()->getNetwork();
-                    while(!$packet->feof()){
+                    while (!$packet->feof()) {
                         $buf = $packet->getString();
                         $pk = $network->getPacket(ord($buf{0}));
-                        //$this->specter->getLogger()->info("PACK:" . get_class($pk));
-                        if(!$pk->canBeBatched()){
+                        if (!$pk->canBeBatched()) {
                             throw new \InvalidArgumentException("Received invalid " . get_class($pk) . " inside BatchPacket");
                         }
 
                         $pk->setBuffer($buf, 1);
                         $this->putPacket($player, $pk, false, $immediate);
                     }
+                }catch(\Throwable $e){
+                    if(\pocketmine\DEBUG > 1){
+                        $logger = $this->specter->getLogger();
+                        if($logger instanceof MainLogger){
+                            $logger->debug("BatchPacket " . " 0x" . bin2hex($packet->payload));
+                            $logger->logException($e);
+                        }
+                    }
+                }
                     break;
             }
             if($needACK){
