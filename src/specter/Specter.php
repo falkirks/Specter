@@ -116,7 +116,6 @@ class Specter extends PluginBase implements Listener {
                             }
                             $pk = new InteractPacket();
                             $pk->action = InteractPacket::ACTION_RIGHT_CLICK; // unused
-                            $pk->eid = $player->getId();
                             $pk->target = $victimId;
                             $this->getInterface()->queueReply($pk, $player->getName());
                         }
