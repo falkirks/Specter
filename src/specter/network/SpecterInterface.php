@@ -107,7 +107,8 @@ class SpecterInterface implements SourceInterface{
                     }
                     break;
                 case MovePlayerPacket::class:
-                    if($packet->eid === $player->getId() && $player->isAlive() && $player->spawned === true && $player->getForceMovement() !== null) {
+                    $eid = isset($packet->entityRuntimeId) ? $packet->entityRuntimeId : $packet->eid; //backwards-compatibility
+                    if($eid === $player->getId() && $player->isAlive() && $player->spawned === true && $player->getForceMovement() !== null) {
                         $packet->mode = MovePlayerPacket::MODE_NORMAL;
                         $packet->yaw += 25; //FIXME little hacky
                         $this->replyStore[$player->getName()][] = $packet;
