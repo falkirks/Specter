@@ -16,6 +16,7 @@ use pocketmine\network\mcpe\protocol\StartGamePacket;
 use pocketmine\network\mcpe\protocol\TextPacket;
 use pocketmine\network\SourceInterface;
 use pocketmine\Player;
+use pocketmine\utils\BinaryStream;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\UUID;
 use specter\Specter;
@@ -117,12 +118,14 @@ class SpecterInterface implements SourceInterface{
                 case BatchPacket::class:
                     $packet->offset = 1;
                     $packet->decode();
+
                     $str = zlib_decode($packet->payload, 1024 * 1024 * 64); //Max 64MB
-                    $packet->setBuffer($str, 0);
+
+                    $stream = new BinaryStream($str, 0);
 
                     $network = $this->specter->getServer()->getNetwork();
                     while(!$packet->feof()){
-                        $buf = $packet->getString();
+                        $buf = $stream->getString();
                         $pk = $network->getPacket(ord($buf{0}));
                         //$this->specter->getLogger()->info("PACK:" . get_class($pk));
                         if(!$pk->canBeBatched()){
@@ -141,7 +144,7 @@ class SpecterInterface implements SourceInterface{
                 return $id;
             }
         }
-	    return null;
+        return null;
     }
 
     /**
