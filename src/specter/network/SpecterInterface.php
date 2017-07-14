@@ -163,7 +163,7 @@ class SpecterInterface implements SourceInterface{
     /**
      * @param string $name
      */
-    public function setName($name){
+    public function setName(string $name){
         // TODO: Implement setName() method.
     }
     public function openSession($username, $address = "SPECTER", $port = 19133){
