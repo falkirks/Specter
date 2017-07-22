@@ -2,7 +2,6 @@
 namespace specter;
 
 use icontrolu\iControlU;
-use pocketmine\block\Air;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\entity\Entity;
@@ -26,7 +25,15 @@ class Specter extends PluginBase implements Listener {
         $this->getServer()->getNetwork()->registerInterface($this->interface);
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
     }
-    public function onCommand(CommandSender $sender, Command $command, $label, array $args){
+	/**
+	 * @param CommandSender $sender
+	 * @param Command $command
+	 * @param string $label
+	 * @param string[] $args
+	 *
+	 * @return bool
+	 */
+    public function onCommand(CommandSender $sender, Command $command, string $label, array $args) : bool {
         if(isset($args[0])){
             switch($args[0]){
                 case 'spawn':
@@ -214,7 +221,7 @@ class Specter extends PluginBase implements Listener {
     /**
      * @priority MONITOR
      * @param DataPacketReceiveEvent $pk
-
+     *
     public function onDataPacketRecieve(DataPacketReceiveEvent $pk){
         if($pk->getPacket() instanceof RequestChunkRadiusPacket){
             $this->getLogger()->info("RADIUS:" . $pk->getPacket()->radius);
@@ -225,7 +232,7 @@ class Specter extends PluginBase implements Listener {
     /**
      * @priority MONITOR
      * @param DataPacketSendEvent $pk
-
+     *
     public function onDataPacketSend(DataPacketSendEvent $pk){
         if(!($pk->getPacket() instanceof SetTimePacket)) {
             $this->getLogger()->info("SEND:" . get_class($pk->getPacket()));
