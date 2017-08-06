@@ -125,12 +125,7 @@ class SpecterInterface implements SourceInterface{
                     $packet->offset = 1;
                     $packet->decode();
 
-                    $str = zlib_decode($packet->payload, 1024 * 1024 * 64); //Max 64MB
-
-                    $stream = new BinaryStream($str, 0);
-
-                    while(!$packet->feof()){
-                        $buf = $stream->getString();
+                    foreach($packet->getPackets() as $buf){
                         $pk = PacketPool::getPacketById(ord($buf{0}));
                         //$this->specter->getLogger()->info("PACK:" . get_class($pk));
                         if(!$pk->canBeBatched()){
