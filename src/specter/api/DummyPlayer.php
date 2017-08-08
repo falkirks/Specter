@@ -14,6 +14,9 @@ class DummyPlayer{
             throw new \Exception("Failed to open session.");
         }
     }
+	/**
+	 * @return null|SpecterPlayer
+	 */
     public function getPlayer(){
         $p = $this->server->getPlayer($this->name);
         if($p instanceof SpecterPlayer){
