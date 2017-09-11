@@ -37,6 +37,11 @@ class SpecterInterface implements SourceInterface{
         $this->ackStore = [];
         $this->replyStore = [];
     }
+
+    public function start(){
+        //NOOP
+    }
+
     /**
      * Sends a DataPacket to the interface, returns an unique identifier for the packet if $needACK is true
      *
