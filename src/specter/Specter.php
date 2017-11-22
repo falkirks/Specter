@@ -7,6 +7,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\entity\Entity;
 use pocketmine\event\Listener;
 use pocketmine\event\player\cheat\PlayerIllegalMoveEvent;
+use pocketmine\math\Vector3;
 use pocketmine\network\mcpe\protocol\InteractPacket;
 use pocketmine\network\mcpe\protocol\MovePlayerPacket;
 use pocketmine\network\mcpe\protocol\RespawnPacket;
@@ -79,11 +80,8 @@ class Specter extends PluginBase implements Listener {
                         $player = $this->getServer()->getPlayer($args[1]);
                         if($player instanceof SpecterPlayer){
                             $pk = new MovePlayerPacket();
-                            $pk->x = $args[2];
-                            $pk->y = $args[3] + $player->getEyeHeight();
-                            $pk->z = $args[4];
+                            $pk->position = new Vector3($args[2],$args[3] + $player->getEyeHeight(),$args[4]);
                             $pk->yaw = $player->getYaw()+10; //This forces movement even if the movement is not large enough
-                            $pk->bodyYaw = 0;
                             $pk->pitch = 0;
                             $this->interface->queueReply($pk, $player->getName());
                         }
