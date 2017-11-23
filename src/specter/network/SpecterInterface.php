@@ -16,6 +16,7 @@ use pocketmine\network\mcpe\protocol\RespawnPacket;
 use pocketmine\network\mcpe\protocol\SetHealthPacket;
 use pocketmine\network\mcpe\protocol\StartGamePacket;
 use pocketmine\network\mcpe\protocol\TextPacket;
+use pocketmine\network\mcpe\protocol\SetTitlePacket;
 use pocketmine\network\SourceInterface;
 use pocketmine\Player;
 use pocketmine\utils\BinaryStream;
@@ -142,6 +143,9 @@ class SpecterInterface implements SourceInterface{
                         $this->putPacket($player, $pk, false, $immediate);
                     }
                     break;
+		case SetTitlePacket::class:
+		    $this->specter->getLogger()->info(TextFormat::LIGHT_PURPLE . "Title to {$player->getName()}: " . TextFormat::WHITE . $packet->text);
+		    break;
             }
             if($needACK){
                 $id = count($this->ackStore[$player->getName()]);
