@@ -1,6 +1,7 @@
 <?php
 namespace specter\network;
 
+use pocketmine\entity\Skin;
 use pocketmine\network\mcpe\protocol\BatchPacket;
 use pocketmine\network\mcpe\protocol\DataPacket;
 use pocketmine\network\mcpe\protocol\LoginPacket;
@@ -118,7 +119,7 @@ class SpecterInterface implements SourceInterface{
                     break;
                 case MovePlayerPacket::class:
                 	/** @var MovePlayerPacket $packet */
-                    $eid = isset($packet->entityRuntimeId) ? $packet->entityRuntimeId : $packet->eid; //backwards-compatibility
+                    $eid = $packet->entityRuntimeId;
                     if($eid === $player->getId() && $player->isAlive() && $player->spawned === true && $player->getForceMovement() !== null) {
                         $packet->mode = MovePlayerPacket::MODE_NORMAL;
                         $packet->yaw += 25; //FIXME little hacky
@@ -184,13 +185,13 @@ class SpecterInterface implements SourceInterface{
                 }
             };
             $pk->username = $username;
-            $pk->gameEdition = 0;
             $pk->protocol = ProtocolInfo::CURRENT_PROTOCOL;
             $pk->clientUUID = UUID::fromData($address, $port, $username)->toString();
             $pk->clientId = 1;
             $pk->identityPublicKey = "key here";
-            $pk->skin = str_repeat("\x80", 64 * 32 * 4);
-            $pk->skinId = "Standard_Alex";
+            $pk->clientData["SkinId"] = "Specter";
+            $pk->clientData["SkinData"] = base64_encode(str_repeat("\x80", 64 * 32 * 4));
+            $pk->skipVerification = true;
 
             $pk->handle($player->getSessionAdapter());
 
