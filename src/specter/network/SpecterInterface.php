@@ -189,7 +189,7 @@ class SpecterInterface implements SourceInterface{
             $pk->clientUUID = UUID::fromData($address, $port, $username)->toString();
             $pk->clientId = 1;
             $pk->identityPublicKey = "key here";
-            $pk->clientData["SkinId"] = base64_encode("Specter");
+            $pk->clientData["SkinId"] = "Specter";
             $pk->clientData["SkinData"] = base64_encode(str_repeat("\x80", 64 * 32 * 4));
             $pk->skipVerification = true;
 
