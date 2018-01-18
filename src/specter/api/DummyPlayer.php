@@ -7,7 +7,7 @@ use specter\Specter;
 
 class DummyPlayer{
     private $server;
-    public function __construct($name, $address = null, $port = null, Server $server = null){
+    public function __construct($name, $address = "SPECTER", $port = 19133, Server $server = null){
         $this->name = $name;
         $this->server = $server === null ? Server::getInstance() : $server;
         if(!$this->getSpecter()->getInterface()->openSession($name, $address, $port)){
