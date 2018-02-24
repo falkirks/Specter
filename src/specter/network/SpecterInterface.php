@@ -192,6 +192,7 @@ class SpecterInterface implements SourceInterface{
             $pk->protocol = ProtocolInfo::CURRENT_PROTOCOL;
             $pk->clientUUID = UUID::fromData($address, $port, $username)->toString();
             $pk->clientId = 1;
+	     $pk->xuid = "xuid here";
             $pk->identityPublicKey = "key here";
             $pk->clientData["SkinId"] = "Specter";
             $pk->clientData["SkinData"] = base64_encode(str_repeat("\x80", 64 * 32 * 4));
