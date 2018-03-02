@@ -182,7 +182,7 @@ class SpecterInterface implements SourceInterface{
             $this->sessions->attach($player, $username);
             $this->ackStore[$username] = [];
             $this->replyStore[$username] = [];
-            $this->specter->getServer()->addPlayer($username, $player);
+            $this->specter->getServer()->addPlayer($player);
 
             $pk = new class() extends LoginPacket{
                 public function decodeAdditional(){
