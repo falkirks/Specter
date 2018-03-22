@@ -2,6 +2,7 @@
 
 namespace specter\network;
 
+use pocketmine\event\server\DataPacketReceiveEvent;
 use pocketmine\network\mcpe\protocol\BatchPacket;
 use pocketmine\network\mcpe\protocol\DataPacket;
 use pocketmine\network\mcpe\protocol\LoginPacket;
@@ -61,7 +62,7 @@ class SpecterInterface implements SourceInterface{
                 case ResourcePacksInfoPacket::class:
                     $pk = new ResourcePackClientResponsePacket();
                     $pk->status = ResourcePackClientResponsePacket::STATUS_COMPLETED;
-                    $pk->handle($player->getSessionAdapter());
+                    $this->sendPacket($player, $pk);
                     break;
                 case TextPacket::class:
                     /** @var TextPacket $packet */
@@ -199,7 +200,7 @@ class SpecterInterface implements SourceInterface{
             $pk->clientData["SkinData"] = base64_encode(str_repeat("\x80", 64 * 32 * 4));
             $pk->skipVerification = true;
 
-            $pk->handle($player->getSessionAdapter());
+            $this->sendPacket($player, $pk);
 
             return true;
         }else{
@@ -231,7 +232,7 @@ class SpecterInterface implements SourceInterface{
             $player = $this->specter->getServer()->getPlayer($name);
             if($player instanceof SpecterPlayer){
                 foreach($packets as $pk){
-                    $pk->handle($player->getSessionAdapter());
+                    $this->sendPacket($player, $pk);
                 }
             }
             $this->replyStore[$name] = [];
@@ -249,5 +250,12 @@ class SpecterInterface implements SourceInterface{
 
     public function emergencyShutdown(){
         // TODO: Implement emergencyShutdown() method.
+    }
+
+    private function sendPacket(SpecterPlayer $player, DataPacket $packet){
+        $this->specter->getServer()->getPluginManager()->callEvent($ev = new DataPacketReceiveEvent($player, $packet));
+        if(!$ev->isCancelled()){
+            $packet->handle($player->getSessionAdapter());
+        }
     }
 }
