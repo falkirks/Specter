@@ -41,7 +41,7 @@ class SpecterInterface implements SourceInterface{
         $this->replyStore = [];
     }
 
-    public function start(){
+    public function start(): void {
         //NOOP
     }
 
@@ -55,7 +55,7 @@ class SpecterInterface implements SourceInterface{
      *
      * @return int
      */
-    public function putPacket(Player $player, DataPacket $packet, bool $needACK = false, bool $immediate = true){
+    public function putPacket(Player $player, DataPacket $packet, bool $needACK = false, bool $immediate = true): ?int{
         if($player instanceof SpecterPlayer){
             //$this->specter->getLogger()->info(get_class($packet));
             switch(get_class($packet)){
@@ -165,7 +165,7 @@ class SpecterInterface implements SourceInterface{
      * @param string $reason
      *
      */
-    public function close(Player $player, string $reason = "unknown reason"){
+    public function close(Player $player, string $reason = "unknown reason"): void{
         $this->sessions->detach($player);
         unset($this->ackStore[$player->getName()]);
         unset($this->replyStore[$player->getName()]);
@@ -174,11 +174,11 @@ class SpecterInterface implements SourceInterface{
     /**
      * @param string $name
      */
-    public function setName(string $name){
+    public function setName(string $name): void{
         // TODO: Implement setName() method.
     }
 
-    public function openSession($username, $address = "SPECTER", $port = 19133){
+    public function openSession($username, $address = "SPECTER", $port = 19133): bool{
         if(!isset($this->replyStore[$username])){
             $player = new SpecterPlayer($this, $address, $port);
             $this->sessions->attach($player, $username);
@@ -208,10 +208,8 @@ class SpecterInterface implements SourceInterface{
         }
     }
 
-    /**
-     * @return bool
-     */
-    public function process() : bool{
+
+    public function process() : void{
         foreach($this->ackStore as $name => $acks){
             $player = $this->specter->getServer()->getPlayer($name);
             if($player instanceof SpecterPlayer){
@@ -237,18 +235,17 @@ class SpecterInterface implements SourceInterface{
             }
             $this->replyStore[$name] = [];
         }
-        return true;
     }
 
-    public function queueReply(DataPacket $pk, $player){
+    public function queueReply(DataPacket $pk, $player): void{
         $this->replyStore[$player][] = $pk;
     }
 
-    public function shutdown(){
+    public function shutdown(): void{
         // TODO: Implement shutdown() method.
     }
 
-    public function emergencyShutdown(){
+    public function emergencyShutdown(): void{
         // TODO: Implement emergencyShutdown() method.
     }
 
