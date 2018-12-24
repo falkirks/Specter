@@ -15,6 +15,7 @@ use pocketmine\network\mcpe\protocol\ResourcePackClientResponsePacket;
 use pocketmine\network\mcpe\protocol\ResourcePacksInfoPacket;
 use pocketmine\network\mcpe\protocol\RespawnPacket;
 use pocketmine\network\mcpe\protocol\SetHealthPacket;
+use pocketmine\network\mcpe\protocol\SetLocalPlayerAsInitializedPacket;
 use pocketmine\network\mcpe\protocol\SetTitlePacket;
 use pocketmine\network\mcpe\protocol\StartGamePacket;
 use pocketmine\network\mcpe\protocol\TextPacket;
@@ -199,6 +200,11 @@ class SpecterInterface implements SourceInterface{
             $pk->clientData["SkinId"] = "Specter";
             $pk->clientData["SkinData"] = base64_encode(str_repeat("\x80", 64 * 32 * 4));
             $pk->skipVerification = true;
+
+            $this->sendPacket($player, $pk);
+
+            $pk = new SetLocalPlayerAsInitializedPacket();
+            $pk->entityRuntimeId = $player->getId();
 
             $this->sendPacket($player, $pk);
 
