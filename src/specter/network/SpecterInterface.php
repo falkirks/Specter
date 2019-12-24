@@ -199,6 +199,11 @@ class SpecterInterface implements SourceInterface{
             $pk->identityPublicKey = "key here";
             $pk->clientData["SkinId"] = "Specter";
             $pk->clientData["SkinData"] = base64_encode(str_repeat("\x80", 64 * 32 * 4));
+            $pk->clientData["SkinImageHeight"] = 32;
+            $pk->clientData["SkinImageWidth"] = 64;
+            $pk->clientData["CapeImageHeight"] = 0;
+            $pk->clientData["CapeImageWidth"] = 0;
+            $pk->clientData["AnimatedImageData"] = [];
             $pk->skipVerification = true;
 
             $this->sendPacket($player, $pk);
