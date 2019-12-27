@@ -5,10 +5,11 @@ use icontrolu\iControlU;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\entity\Entity;
+use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\cheat\PlayerIllegalMoveEvent;
 use pocketmine\math\Vector3;
-use pocketmine\network\mcpe\protocol\InteractPacket;
+use pocketmine\network\mcpe\protocol\ActorEventPacket;
 use pocketmine\network\mcpe\protocol\MovePlayerPacket;
 use pocketmine\network\mcpe\protocol\RespawnPacket;
 use pocketmine\network\mcpe\protocol\TextPacket;
@@ -105,7 +106,7 @@ class Specter extends PluginBase implements Listener {
                                     $sender->sendMessage("Usage: /specter attack <attacker> <victim>|<eid:<victim eid>>");
                                     return true;
                                 }
-                                if(!($player->getLevel()->getEntity($victimId) instanceof Entity)){
+                                if (!($victim = $player->getLevel()->getEntity($victimId) instanceof Entity)) {
                                     $sender->sendMessage("There is no entity with entity ID $victimId in {$player->getName()}'s level");
                                     return true;
                                 }
@@ -119,9 +120,11 @@ class Specter extends PluginBase implements Listener {
                                     return true;
                                 }
                             }
-                            $pk = new InteractPacket();
-                            $pk->action = InteractPacket::ACTION_RIGHT_CLICK; // unused
-                            $pk->target = $victimId;
+                            $ev = new EntityDamageByEntityEvent($player, $victim, EntityDamageByEntityEvent::CAUSE_ENTITY_ATTACK, 0.0, [], 0.0);
+                            $victim->attack($ev);
+                            $pk = new ActorEventPacket();
+                            $pk->entityRuntimeId = $player->getId();
+                            $pk->event = ActorEventPacket::ARM_SWING;//TODO test, check if AnimatePacket::ACTION_SWING_ARM instead
                             $this->getInterface()->queueReply($pk, $player->getName());
                         }
                         else{
