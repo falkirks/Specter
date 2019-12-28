@@ -12,6 +12,7 @@ use pocketmine\event\player\cheat\PlayerIllegalMoveEvent;
 use pocketmine\math\Vector3;
 use pocketmine\network\mcpe\protocol\AnimatePacket;
 use pocketmine\network\mcpe\protocol\MovePlayerPacket;
+use pocketmine\network\mcpe\protocol\PlayerActionPacket;
 use pocketmine\network\mcpe\protocol\RespawnPacket;
 use pocketmine\network\mcpe\protocol\TextPacket;
 use pocketmine\Player;
@@ -188,6 +189,10 @@ class Specter extends PluginBase implements Listener
                     if ($player instanceof SpecterPlayer) {
                         if (!$player->spec_needRespawn) {
                             $this->interface->queueReply(new RespawnPacket(), $player->getName());
+                            $respawnPK = new PlayerActionPacket();
+                            $respawnPK->action = PlayerActionPacket::ACTION_RESPAWN;
+                            $respawnPK->entityRuntimeId = $player->getId();
+                            $this->interface->queueReply($respawnPK, $player->getName());
                         } else {
                             $sender->sendMessage("{$player->getName()} doesn't need respawning.");
                         }
