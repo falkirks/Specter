@@ -2,7 +2,7 @@ name: Specter
 version: 0.7
 author: Falkirks
 main: specter\Specter
-api: [3.11.0, 4.0.0]
+api: [3.11]
 softdepend: ["iControlU"]
 commands:
   specter:
