@@ -38,7 +38,7 @@ class DummyPlayer{
      */
     protected function getSpecter(){
         $plugin = $this->server->getPluginManager()->getPlugin("Specter");
-        if($plugin !== null && $plugin->isEnabled()){
+        if ($plugin instanceof Specter && $plugin->isEnabled()) {
             return $plugin;
         }
         else{
