@@ -8,6 +8,7 @@ use pocketmine\network\mcpe\protocol\DataPacket;
 use pocketmine\network\mcpe\protocol\LoginPacket;
 use pocketmine\network\mcpe\protocol\MovePlayerPacket;
 use pocketmine\network\mcpe\protocol\PacketPool;
+use pocketmine\network\mcpe\protocol\PlayerActionPacket;
 use pocketmine\network\mcpe\protocol\PlayStatusPacket;
 use pocketmine\network\mcpe\protocol\ProtocolInfo;
 use pocketmine\network\mcpe\protocol\RequestChunkRadiusPacket;
@@ -97,6 +98,10 @@ class SpecterInterface implements SourceInterface
                         if ($this->specter->getConfig()->get("autoRespawn")) {
                             $pk = new RespawnPacket();
                             $this->replyStore[$player->getName()][] = $pk;
+                            $respawnPK = new PlayerActionPacket();
+                            $respawnPK->action = PlayerActionPacket::ACTION_RESPAWN;
+                            $respawnPK->entityRuntimeId = $player->getId();
+                            $this->replyStore[$player->getName()][] = $respawnPK;
                         }
                     } else {
                         $player->spec_needRespawn = true;
@@ -226,6 +231,8 @@ class SpecterInterface implements SourceInterface
                 $pk->entityRuntimeId = $player->getId();
 
                 $this->sendPacket($player, $pk);
+
+                $player->setScoreTag("[SPECTER]");
             } catch (\TypeError $error) {
                 $this->specter->getLogger()->info(TextFormat::LIGHT_PURPLE . "Specter {$player->getName()} was not spawned: LoginPacket cancelled");
                 return false;
