@@ -133,7 +133,7 @@ class SpecterInterface implements SourceInterface
                     $eid = $packet->entityRuntimeId;
                     if ($eid === $player->getId() && $player->isAlive() && $player->spawned === true && $player->getForceMovement() !== null) {
                         $packet->mode = MovePlayerPacket::MODE_NORMAL;
-                        $packet->yaw += 25; //FIXME little hacky
+                        $packet->yaw += 25; //FIXME little hacky //seems this is caused by eyeheight issues. need to investigate
                         $this->replyStore[$player->getName()][] = $packet;
                     }
                     break;
@@ -222,6 +222,11 @@ class SpecterInterface implements SourceInterface
             $pk->clientData["CapeImageHeight"] = 0;
             $pk->clientData["CapeImageWidth"] = 0;
             $pk->clientData["AnimatedImageData"] = [];
+            $pk->clientData["DeviceOS"] = 0;//TODO validate this. Steadfast says -1 = Unknown, but this would crash the PlayerInfo plugin
+            $pk->clientData["DeviceModel"] = "Specter";
+            $pk->clientData["UIProfile"] = 0;
+            $pk->clientData["GuiScale"] = -1;
+            $pk->clientData["CurrentInputMode"] = 0;
             $pk->skipVerification = true;
 
             $this->sendPacket($player, $pk);
