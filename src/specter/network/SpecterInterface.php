@@ -222,6 +222,8 @@ class SpecterInterface implements SourceInterface
             $pk->clientData["CapeImageHeight"] = 0;
             $pk->clientData["CapeImageWidth"] = 0;
             $pk->clientData["AnimatedImageData"] = [];
+            $pk->clientData["PersonaPieces"] = [];
+            $pk->clientData["PieceTintColors"] = [];
             $pk->clientData["DeviceOS"] = 0;//TODO validate this. Steadfast says -1 = Unknown, but this would crash the PlayerInfo plugin
             $pk->clientData["DeviceModel"] = "Specter";
             $pk->clientData["UIProfile"] = 0;
