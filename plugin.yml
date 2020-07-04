@@ -3,7 +3,7 @@ version: "0.9"
 author: Falkirks
 main: specter\Specter
 api: ["3.11"]
-mcpe-protocol: [390]
+mcpe-protocol: [390, 407]
 softdepend: ["iControlU"]
 commands:
   specter:
