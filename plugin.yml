@@ -2,8 +2,8 @@ name: Specter
 version: "0.9"
 author: Falkirks
 main: specter\Specter
-api: ["3.14"]
-mcpe-protocol: [407, 408, 419]
+api: ["3.14","3.15","3.16","3.17"]
+mcpe-protocol: [407, 408, 419, 422]
 softdepend: ["iControlU"]
 commands:
   specter:
