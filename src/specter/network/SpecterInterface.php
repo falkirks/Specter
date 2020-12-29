@@ -143,7 +143,7 @@ class SpecterInterface implements SourceInterface
                     $packet->decode();
 
                     foreach ($packet->getPackets() as $buf) {
-                        $pk = PacketPool::getPacketById(ord($buf{0}));
+                        $pk = PacketPool::getPacketById(ord($buf[0]));
                         //$this->specter->getLogger()->info("PACK:" . get_class($pk));
                         if (!$pk->canBeBatched()) {
                             throw new \InvalidArgumentException("Received invalid " . get_class($pk) . " inside BatchPacket");
