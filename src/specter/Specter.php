@@ -60,7 +60,6 @@ class Specter extends PluginBase implements Listener
                     } else {
                         return false;
                     }
-                    break;
                 case 'kick':
                 case 'quit':
                 case 'close':
@@ -76,7 +75,6 @@ class Specter extends PluginBase implements Listener
                         $sender->sendMessage("Usage: /specter quit <p>");
                     }
                     return true;
-                    break;
                 case 'move':
                 case 'm':
                 case 'teleport':
@@ -96,7 +94,6 @@ class Specter extends PluginBase implements Listener
                         $sender->sendMessage("Usage: /specter move  <p> <x> <y> <z>");
                     }
                     return true;
-                    break;
                 case 'attack':
                 case 'a':
                     if (isset($args[2])) {
@@ -136,7 +133,6 @@ class Specter extends PluginBase implements Listener
                         $sender->sendMessage("Usage: /specter attack <attacker> [eid:]<victim> [damage]");
                     }
                     return true;
-                    break;
                 case 'c':
                 case 'chat':
                 case 'command':
@@ -155,7 +151,6 @@ class Specter extends PluginBase implements Listener
                         $sender->sendMessage("Usage: /specter chat <p> <data>");
                     }
                     return true;
-                    break;
                 case 'control': //TODO update iControlU with better support
                 case 'icu':
                     if ($sender instanceof Player) {
@@ -178,7 +173,6 @@ class Specter extends PluginBase implements Listener
                         $sender->sendMessage("This command must be run in game.");
                     }
                     return true;
-                    break;
                 case "respawn":
                 case "r":
                     if (!isset($args[1])) {
@@ -200,7 +194,6 @@ class Specter extends PluginBase implements Listener
                         $sender->sendMessage("That player isn't a specter player");
                     }
                     return true;
-                    break;
             }
         }
         return false;
