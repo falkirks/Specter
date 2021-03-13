@@ -213,6 +213,7 @@ class SpecterInterface implements SourceInterface
             $pk->identityPublicKey = "key here";
             $pk->clientData["SkinResourcePatch"] = base64_encode('{"geometry": {"default": "geometry.humanoid.custom"}}');
             $pk->clientData["SkinId"] = "Specter";
+            $pk->clientData["PlayFabId"] = "Specter";
             try {
                 $pk->clientData["SkinData"] = base64_encode(str_repeat(random_bytes(3) . "\xff", 2048));
             } catch (\Exception $e) {

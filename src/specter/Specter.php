@@ -51,7 +51,7 @@ class Specter extends PluginBase implements Listener
                 case 'add':
                 case 's':
                     if (isset($args[1])) {
-                        if ($this->getInterface()->openSession($args[1], isset($args[2]) ? $args[2] : "SPECTER", isset($args[3]) ? $args[3] : 19133)) {
+                        if ($this->getInterface()->openSession($args[1], $args[2] ?? "SPECTER", $args[3] ?? 19133)) {
                             $sender->sendMessage("Session started.");
                         } else {
                             $sender->sendMessage("Failed to open session");
@@ -121,7 +121,7 @@ class Specter extends PluginBase implements Listener
                                     return true;
                                 }
                             }
-                            $damage = floatval($args[3] ?? 0.0);
+                            $damage = (float)($args[3] ?? 0.0);
                             $ev = new EntityDamageByEntityEvent($player, $victim, EntityDamageByEntityEvent::CAUSE_ENTITY_ATTACK, $damage, [], 0.0);
                             $victim->attack($ev);
                             $pk = new AnimatePacket();
