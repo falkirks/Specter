@@ -118,7 +118,7 @@ class Specter extends PluginBase implements Listener
                                     return true;
                                 }
                             }
-                            $damage = (float)($args[3] ?? 0.0);
+                            $damage = (float)(max(0.0, $args[3] ?? 0.0));
                             $ev = new EntityDamageByEntityEvent($player, $victim, EntityDamageByEntityEvent::CAUSE_ENTITY_ATTACK, $damage, [], 0.0);
                             $victim->attack($ev);
                             $pk = new AnimatePacket();
