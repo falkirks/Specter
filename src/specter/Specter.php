@@ -57,9 +57,8 @@ class Specter extends PluginBase implements Listener
                             $sender->sendMessage("Failed to open session");
                         }
                         return true;
-                    } else {
-                        return false;
                     }
+                    return false;
                 case 'kick':
                 case 'quit':
                 case 'close':
