@@ -51,16 +51,14 @@ class Specter extends PluginBase implements Listener
                 case 'add':
                 case 's':
                     if (isset($args[1])) {
-                        if ($this->getInterface()->openSession($args[1], isset($args[2]) ? $args[2] : "SPECTER", isset($args[3]) ? $args[3] : 19133)) {
+                        if ($this->getInterface()->openSession($args[1], $args[2] ?? "SPECTER", $args[3] ?? 19133)) {
                             $sender->sendMessage("Session started.");
                         } else {
                             $sender->sendMessage("Failed to open session");
                         }
                         return true;
-                    } else {
-                        return false;
                     }
-                    break;
+                    return false;
                 case 'kick':
                 case 'quit':
                 case 'close':
@@ -76,7 +74,6 @@ class Specter extends PluginBase implements Listener
                         $sender->sendMessage("Usage: /specter quit <p>");
                     }
                     return true;
-                    break;
                 case 'move':
                 case 'm':
                 case 'teleport':
@@ -96,7 +93,6 @@ class Specter extends PluginBase implements Listener
                         $sender->sendMessage("Usage: /specter move  <p> <x> <y> <z>");
                     }
                     return true;
-                    break;
                 case 'attack':
                 case 'a':
                     if (isset($args[2])) {
@@ -121,7 +117,7 @@ class Specter extends PluginBase implements Listener
                                     return true;
                                 }
                             }
-                            $damage = floatval($args[3] ?? 0.0);
+                            $damage = (float)(max(0.0, $args[3] ?? 0.0));
                             $ev = new EntityDamageByEntityEvent($player, $victim, EntityDamageByEntityEvent::CAUSE_ENTITY_ATTACK, $damage, [], 0.0);
                             $victim->attack($ev);
                             $pk = new AnimatePacket();
@@ -136,7 +132,6 @@ class Specter extends PluginBase implements Listener
                         $sender->sendMessage("Usage: /specter attack <attacker> [eid:]<victim> [damage]");
                     }
                     return true;
-                    break;
                 case 'c':
                 case 'chat':
                 case 'command':
@@ -155,7 +150,6 @@ class Specter extends PluginBase implements Listener
                         $sender->sendMessage("Usage: /specter chat <p> <data>");
                     }
                     return true;
-                    break;
                 case 'control': //TODO update iControlU with better support
                 case 'icu':
                     if ($sender instanceof Player) {
@@ -178,7 +172,6 @@ class Specter extends PluginBase implements Listener
                         $sender->sendMessage("This command must be run in game.");
                     }
                     return true;
-                    break;
                 case "respawn":
                 case "r":
                     if (!isset($args[1])) {
@@ -200,7 +193,6 @@ class Specter extends PluginBase implements Listener
                         $sender->sendMessage("That player isn't a specter player");
                     }
                     return true;
-                    break;
             }
         }
         return false;
