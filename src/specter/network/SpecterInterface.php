@@ -219,9 +219,7 @@ class SpecterInterface implements SourceInterface
             } catch (\Exception $e) {
                 $pk->clientData["SkinData"] = base64_encode(str_repeat("\x80", 64 * 32 * 4));
             }
-            if (ProtocolInfo::CURRENT_PROTOCOL == 465){
-               $pk->clientData["SkinGeometryDataEngineVersion"] = "Specter";
-            }
+            $pk->clientData["SkinGeometryDataEngineVersion"] = "Specter";
             $pk->clientData["SkinImageHeight"] = 32;
             $pk->clientData["SkinImageWidth"] = 64;
             $pk->clientData["CapeImageHeight"] = 0;
