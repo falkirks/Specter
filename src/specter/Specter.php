@@ -15,7 +15,7 @@ use pocketmine\network\mcpe\protocol\MovePlayerPacket;
 use pocketmine\network\mcpe\protocol\PlayerActionPacket;
 use pocketmine\network\mcpe\protocol\RespawnPacket;
 use pocketmine\network\mcpe\protocol\TextPacket;
-use pocketmine\Player;
+use pocketmine\player\Player
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat;
 use specter\network\SpecterInterface;
