@@ -21,7 +21,7 @@ use pocketmine\network\mcpe\protocol\SetTitlePacket;
 use pocketmine\network\mcpe\protocol\StartGamePacket;
 use pocketmine\network\mcpe\protocol\TextPacket;
 use pocketmine\network\SourceInterface;
-use pocketmine\player\Player
+use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\UUID;
 use specter\Specter;
