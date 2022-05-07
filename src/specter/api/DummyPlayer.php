@@ -3,7 +3,6 @@ namespace specter\api;
 
 use pocketmine\Server;
 use specter\network\SpecterPlayer;
-use pocketmine\network\SourceInterface
 use specter\Specter;
 
 class DummyPlayer{
