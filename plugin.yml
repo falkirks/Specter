@@ -1,8 +1,10 @@
 name: Specter
-version: "0.9"
+version: 1.0
 author: Falkirks
 main: specter\Specter
-api: 4.0.0
+api: ["4.0.0"]
+mcpe-protocol: [448, 471, 475, 486, 503]
+softdepend: ["iControlU"]
 commands:
   specter:
     usage: /specter <action> <player> [params]
