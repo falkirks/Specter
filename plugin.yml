@@ -2,17 +2,15 @@ name: Specter
 version: "0.9"
 author: Falkirks
 main: specter\Specter
-api: ["3.14","3.15","3.16","3.17","3.18"]
-mcpe-protocol: [407, 408, 419, 422, 428]
-softdepend: ["iControlU"]
+api: 4.0.0
 commands:
   specter:
     usage: /specter <action> <player> [params]
     permission: specter.command
     aliases: ['s']
+    
 permissions:
   specter:
     default: op
-    children:
-      specter.command:
-        default: op
+  specter.command:
+    default: op
