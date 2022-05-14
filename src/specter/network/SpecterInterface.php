@@ -21,7 +21,7 @@ use pocketmine\network\mcpe\protocol\SetTitlePacket;
 use pocketmine\network\mcpe\protocol\StartGamePacket;
 use pocketmine\network\mcpe\protocol\TextPacket;
 use pocketmine\network\SourceInterface;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\UUID;
 use specter\Specter;
@@ -120,9 +120,9 @@ class SpecterInterface implements SourceInterface
                             $pk->x = $player->getPosition()->x;
                             $pk->y = $player->getPosition()->y;
                             $pk->z = $player->getPosition()->z;
-                            $pk->yaw = $player->getYaw();
-                            $pk->pitch = $player->getPitch();
-                            $pk->bodyYaw = $player->getYaw();
+                            $pk->yaw = $player->getLocation()->getYaw();
+                            $pk->pitch = $player->getLocation()->getPitch();
+                            $pk->bodyYaw = $player->getLocation()->getYaw();
                             $pk->onGround = true;
                             $pk->handle($player);*/
                             break;

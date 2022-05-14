@@ -15,7 +15,7 @@ use pocketmine\network\mcpe\protocol\MovePlayerPacket;
 use pocketmine\network\mcpe\protocol\PlayerActionPacket;
 use pocketmine\network\mcpe\protocol\RespawnPacket;
 use pocketmine\network\mcpe\protocol\TextPacket;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat;
 use specter\network\SpecterInterface;
@@ -26,8 +26,7 @@ class Specter extends PluginBase implements Listener
     /** @var  SpecterInterface */
     private $interface;
 
-    public function onEnable()
-    {
+    protected function onEnable(): void{
         $this->saveDefaultConfig();
         $this->interface = new SpecterInterface($this);
         $this->getServer()->getNetwork()->registerInterface($this->interface);
@@ -83,7 +82,7 @@ class Specter extends PluginBase implements Listener
                         if ($player instanceof SpecterPlayer) {
                             $pk = new MovePlayerPacket();
                             $pk->position = new Vector3($args[2], $args[3] + $player->getEyeHeight(), $args[4]);
-                            $pk->yaw = $player->getYaw() + 10; //This forces movement even if the movement is not large enough
+                            $pk->yaw = $player->getLocation()->getYaw() + 10; //This forces movement even if the movement is not large enough
                             $pk->pitch = 0;
                             $this->interface->queueReply($pk, $player->getName());
                         } else {
@@ -104,7 +103,7 @@ class Specter extends PluginBase implements Listener
                                     $sender->sendMessage("Usage: /specter attack <attacker> <victim>|<eid:<victim eid>>");
                                     return true;
                                 }
-                                if (!($victim = $player->getLevel()->getEntity($victimId) instanceof Entity)) {
+                                if (!($victim = $player->getWorld()->getEntity($victimId) instanceof Entity)) {
                                     $sender->sendMessage("There is no entity with entity ID $victimId in {$player->getName()}'s level");
                                     return true;
                                 }
@@ -205,7 +204,7 @@ class Specter extends PluginBase implements Listener
     public function onIllegalMove(PlayerIllegalMoveEvent $event)
     {
         if ($event->getPlayer() instanceof SpecterPlayer && $this->getConfig()->get('allowIllegalMoves')) {
-            $event->setCancelled();
+            $event->cancel();
         }
     }
     /*
