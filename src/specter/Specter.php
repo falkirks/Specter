@@ -120,7 +120,7 @@ class Specter extends PluginBase implements Listener
                             $ev = new EntityDamageByEntityEvent($player, $victim, EntityDamageByEntityEvent::CAUSE_ENTITY_ATTACK, $damage, [], 0.0);
                             $victim->attack($ev);
                             $pk = new AnimatePacket();
-                            $pk->entityRuntimeId = $player->getId();
+                            $pk->actorRuntimeId = $player->getId();
                             $pk->action = AnimatePacket::ACTION_SWING_ARM;
                             $this->getInterface()->queueReply($pk, $player->getName());
                             $this->getLogger()->info(TextFormat::LIGHT_PURPLE . "{$player->getName()} attacking {$victim->getName()}(eid:{$victimId}) with {$damage} damage");
@@ -183,7 +183,7 @@ class Specter extends PluginBase implements Listener
                             $this->interface->queueReply(new RespawnPacket(), $player->getName());
                             $respawnPK = new PlayerActionPacket();
                             $respawnPK->action = PlayerActionPacket::ACTION_RESPAWN;
-                            $respawnPK->entityRuntimeId = $player->getId();
+                            $respawnPK->actorRuntimeId = $player->getId();
                             $this->interface->queueReply($respawnPK, $player->getName());
                         } else {
                             $sender->sendMessage("{$player->getName()} doesn't need respawning.");
