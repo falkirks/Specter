@@ -20,13 +20,13 @@ use pocketmine\network\mcpe\protocol\SetLocalPlayerAsInitializedPacket;
 use pocketmine\network\mcpe\protocol\SetTitlePacket;
 use pocketmine\network\mcpe\protocol\StartGamePacket;
 use pocketmine\network\mcpe\protocol\TextPacket;
-use pocketmine\network\SourceInterface;
+use pocketmine\network\NetworkInterface;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\UUID;
 use specter\Specter;
 
-class SpecterInterface implements SourceInterface
+class SpecterInterface implements NetworkInterface
 {
     /** @var  SpecterPlayer[]|\SplObjectStorage */
     private $sessions;
@@ -100,7 +100,7 @@ class SpecterInterface implements SourceInterface
                             $this->replyStore[$player->getName()][] = $pk;
                             $respawnPK = new PlayerActionPacket();
                             $respawnPK->action = PlayerActionPacket::ACTION_RESPAWN;
-                            $respawnPK->entityRuntimeId = $player->getId();
+                            $respawnPK->actorRuntimeId = $player->getId();
                             $this->replyStore[$player->getName()][] = $respawnPK;
                         }
                     } else {
@@ -130,7 +130,7 @@ class SpecterInterface implements SourceInterface
                     break;
                 case MovePlayerPacket::class:
                     /** @var MovePlayerPacket $packet */
-                    $eid = $packet->entityRuntimeId;
+                    $eid = $packet->actorRuntimeId;
                     if ($eid === $player->getId() && $player->isAlive() && $player->spawned === true && $player->getForceMovement() !== null) {
                         $packet->mode = MovePlayerPacket::MODE_NORMAL;
                         $packet->yaw += 25; //FIXME little hacky //seems this is caused by eyeheight issues. need to investigate
@@ -237,7 +237,7 @@ class SpecterInterface implements SourceInterface
 
             try {
                 $pk = new SetLocalPlayerAsInitializedPacket();
-                $pk->entityRuntimeId = $player->getId();
+                $pk->actorRuntimeId = $player->getId();
 
                 $this->sendPacket($player, $pk);
 
